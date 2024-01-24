@@ -1,0 +1,7 @@
+@startuml
+
+class 借りる
+class 返す
+class 期限
+
+@enduml
