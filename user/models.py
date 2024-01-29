@@ -26,10 +26,24 @@ class CustomUserModel(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
+    # 利用者用追加フィールド
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    borrowed_day = models.DateTimeField(
+        blank=True,
+        null=True,
+    )
+    # is_expired = models.BooleanField(default=False)
+
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+    def is_user(self):
+        return not self.is_staff and not self.is_superuser
+
+    def is_admin(self):
+        return self.is_staff
 
 
 # 役割

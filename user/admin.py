@@ -3,11 +3,11 @@ from django.contrib.auth.admin import UserAdmin  # auth.adminからUserAdminク�
 from .models import *  # 現在のアプリのmodels.pyからすべてのクラスをインポート
 
 class CustomUserModelAdmin(UserAdmin):  # UserAdminを継承したCustomUserModelAdminクラスを定義
-    list_display = ('name', 'email', 'is_active', 'is_staff')  # 管理画面のユーザーリストで表示するフィールド
+    list_display = ('name', 'email', 'phone_number', 'borrowed_day', 'is_active', 'is_staff')  # 管理画面のユーザーリストで表示するフィールド
 
     fieldsets = (  # ユーザー編集画面でのフィールドのグループ化
         (None, {'fields': ('email', 'password')}),  # 基本情報
-        ('Personal info', {'fields': ('name',)}),  # 個人情報
+        ('Personal info', {'fields': ('name', 'phone_number', 'borrowed_day')}),  # 個人情報
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),  # 権限設定
         ('Important dates', {'fields': ('last_login',)}),  # 重要な日付情報
     )
@@ -15,7 +15,7 @@ class CustomUserModelAdmin(UserAdmin):  # UserAdminを継承したCustomUserMode
     add_fieldsets = (  # ユーザー追加画面でのフィールドのグループ化
         (None, {
             'classes': ('wide',),  # CSSクラス
-            'fields': ('email', 'name', 'password1', 'password2'),  # フィールド
+            'fields': ('email', 'name', 'phone_number', 'borrowed_day', 'password1', 'password2'),  # フィールド
         }),
     )
 
