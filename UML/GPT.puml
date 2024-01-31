@@ -1,0 +1,38 @@
+@startuml
+class Book {
+    - title: String
+    - author: String
+    - isbn: String
+    - available: Boolean
+}
+
+class Member {
+    - name: String
+    - id: String
+    - contactInfo: String
+    + borrowBook(book: Book): void
+    + returnBook(book: Book): void
+}
+
+class Loan {
+    - book: Book
+    - member: Member
+    - loanDate: Date
+    - dueDate: Date
+}
+
+class Library {
+    - books: List<Book>
+    - members: List<Member>
+    + addBook(book: Book): void
+    + addMember(member: Member): void
+    + lendBook(book: Book, member: Member): void
+    + receiveReturnedBook(book: Book): void
+}
+
+Member "1" -- "*" Loan : borrows >
+Loan "*" -- "1" Book : of >
+Library -- "*" Book : contains >
+Library -- "*" Member : registers >
+
+@enduml
