@@ -160,7 +160,7 @@ LOGGING = {
     },
     'handlers': {
         'file': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',  # ローテーション機能付き
             'filename': os.path.join(LOGGING_DIR, 'logging_app.log'),  # ログファイル名
             'maxBytes': 1024 * 1024 * 5,  # 5 MB
@@ -172,7 +172,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['file'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
     },
