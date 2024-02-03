@@ -32,6 +32,6 @@ class BookViewSet(viewsets.ModelViewSet):
 
 @api_view(['GET', 'POST'])
 def create_book_csv(request):
-    create_book = CreateBook()
+    create_book = CreateBook(2)
     create_book.create_csv()
-    return Response({"massage": "create_csv OK"})
+    return Response({"message": "create_csv OK"})

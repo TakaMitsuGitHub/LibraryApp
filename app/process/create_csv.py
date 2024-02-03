@@ -31,4 +31,3 @@ class CreateBook(BookData):
         }
         df = pd.DataFrame(dic)
         df.to_csv("books.csv", index=False)
-        print("ここ")
