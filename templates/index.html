@@ -1,4 +1,57 @@
 {% extends 'base.html' %}
 {% block main %}
 <h1>Hello</h1>
+<form action="#">
+  {% csrf_token %}
+  <button id="create_book_csv" class="create_book_csv">create_book_csv</button>
+</form>
+
+
+<style>
+  button {
+    background: #fbca1f;
+    font-family: inherit;
+    padding: 0.6em 1.3em;
+    font-weight: 900;
+    font-size: 18px;
+    border: 3px solid black;
+    border-radius: 0.4em;
+    box-shadow: 0.1em 0.1em;
+    cursor: pointer;
+  }
+
+  button:hover {
+    transform: translate(-0.05em, -0.05em);
+    box-shadow: 0.15em 0.15em;
+  }
+
+  button:active {
+    transform: translate(0.05em, 0.05em);
+    box-shadow: 0.05em 0.05em;
+  }
+</style>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    $(document).ready(function() {
+        $('#create_book_csv').click(function(e) {
+            $.ajax({
+                url: '/api/create_book_csv/',
+                method: 'POST',
+
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                success: function(response) {
+                    alert(response.message)
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log("エラー:", xhr);
+                }
+            });
+            e.preventDefault();
+        });
+    });
+
+</script>
 {% endblock %}

@@ -19,7 +19,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from . import views
-from .views import BookViewSet
+from .views import BookViewSet, create_book_csv
 
 router = DefaultRouter()
 router.register(r'books', BookViewSet)
@@ -32,5 +32,5 @@ urlpatterns = [
     # path('book_list', views.BookList.as_view(), name='book_list'),
 
     # api
-    path('api/book/create/', )
+    path('api/create_book_csv/', create_book_csv, name="create_book_csv"),
 ]
