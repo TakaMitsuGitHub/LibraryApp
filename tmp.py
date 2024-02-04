@@ -35,11 +35,17 @@ class Point:
         return hash((self.x, self.y))
 
 # クラスの使い方
+
+# __init__
 point1 = Point(1, 2)
 point2 = Point(1, 2)
 
+# __repr__
 print(point1)           # Point(1, 2)
-print(point1 == point2) # True
+print(point2)           # Point(1, 2)
+
+# __eq__
+print(point1 == point2)  # True
 print(point1 < point2)  # False
 
 point_set = {point1}
