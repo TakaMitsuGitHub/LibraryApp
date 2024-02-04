@@ -50,3 +50,4 @@ print(point1 < point2)  # False
 
 point_set = {point1}
 print(point2 in point_set)  # True
+print(point_set)  # True

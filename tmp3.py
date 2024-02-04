@@ -1,12 +1,21 @@
 from dataclasses import dataclass
 
 
-# 通常
+# クラス分け
 # @dataclass
 @dataclass(frozen=True)
-class Product:
+class ProductData:
     name: str
     cost: int
+
+
+class Product(ProductData):
+
+    def __init__(self, name2, cost2):
+        super().__init__()
+        # self.name = "aaa"
+        self.name2 = name2
+        self.cost2 = cost2
 
     def price_confirmed(self, rate: float) -> int:
         price = int(round(self.cost * rate, 0))
