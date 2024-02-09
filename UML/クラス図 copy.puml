@@ -1,0 +1,74 @@
+@startuml
+skinparam linetype ortho
+
+class User {
+    -name: String
+    -id: String
+    +register()
+    +requestBook()
+}
+
+class Book {
+    -title: String
+    -author: String
+    -isbn: String
+    -available: Boolean
+    +checkAvailability()
+}
+
+class Library {
+    -users: List<User>
+    -books: List<Book>
+    +registerUser(user: User)
+    +loanBook(book: Book, user: User)
+    +returnBook(book: Book, user: User)
+}
+
+class Loan {
+    -user: User
+    -book: Book
+    -loanDate: Date
+    -dueDate: Date
+    +extendLoan()
+}
+
+class Reservation {
+    -user: User
+    -book: Book
+    -reservationDate: Date
+    -expiryDate: Date
+    +cancelReservation()
+}
+
+class Catalog {
+    -books: List<Book>
+    +searchBook(title: String)
+    +displayBookDetails(isbn: String)
+}
+
+class Fine {
+    -user: User
+    -amount: Double
+    +calculateFine()
+}
+
+class Notification {
+    -user: User
+    -message: String
+    +sendNotification()
+}
+
+class Search {
+    -keyword: String
+    +searchBooks()
+}
+
+User "1" -- "0..*" Loan : has >
+Loan "*" -- "1" Book : borrows >
+User "1" -- "0..*" Reservation : requests >
+User "1" -- "0..*" Fine : incurs >
+Library "1" -- "*" Catalog : contains >
+User "1" -- "*" Notification : receives >
+User "1" -- "*" Search : performs >
+
+@enduml

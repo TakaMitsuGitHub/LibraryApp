@@ -1,29 +1,42 @@
+from datetime import timedelta
+
 from django.db import models
+from ..user.models import CustomUserModel
 
 
+# 書跡
 class Book(models.Model):
-    name = models.CharField(
-        max_length=255,
-        blank=True,
-        null=True,
-    )
-    auther = models.CharField(
-        max_length=255,
-        blank=True,
-        null=True,
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    title = models.CharField(max_length=100)
+    author = models.CharField(max_length=100)
+    isbn = models.CharField(max_length=13)
+    available = models.BooleanField(default=True)
+
+    def check_availability(self):
+        return self.available
 
 
-class Library(models.Model):
-    book_id = models.ForeignKey(
+class Loan(models.Model):
+    user = models.ForeignKey(
+        to=CustomUserModel,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    book = models.ForeignKey(
         to=Book,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
         blank=True,
-        null=False,
-        default=0,
     )
-    is_lent = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    loanDate = models.DateTimeField(
+        verbose_name="貸し出し日",
+        auto_now_add=True
+    )
+    dueDate = models.DateTimeField(
+        verbose_name="返却期限",
+    )
+
+    def extendLoan(self, days=7):
+        if self.dueDate:
+            self.dueDate += timedelta(days=days)
+            self.save()

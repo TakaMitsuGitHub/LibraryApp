@@ -1,0 +1,32 @@
+@startuml
+participant "User" as User
+participant "Library System" as Library
+participant "Database" as DB
+
+User -> Library : Register()
+activate Library
+Library -> DB : Create User Record()
+activate DB
+DB -> Library : Confirmation()
+deactivate DB
+Library -> User : Registration Complete()
+deactivate Library
+
+User -> Library : Request Book Loan(bookId)
+activate Library
+Library -> DB : Check Book Availability(bookId)
+activate DB
+DB -> Library : Book Status(available)
+deactivate DB
+Library -> User : Book Loan Initiated(bookId)
+deactivate Library
+
+User -> Library : Return Book(bookId)
+activate Library
+Library -> DB : Update Book Status(returned)
+activate DB
+DB -> Library : Confirmation()
+deactivate DB
+Library -> User : Book Return Complete()
+deactivate Library
+@enduml

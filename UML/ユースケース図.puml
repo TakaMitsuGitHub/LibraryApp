@@ -1,11 +1,32 @@
 @startuml
-:利用者: --> (本を借りる)
-:利用者: --> (本を返す)
-:利用者: --> (期限内に本を返す)
-:利用者: --> (期限を過ぎてに本を返す)
+participant "ユーザー" as User
+participant "図書館システム" as Library
+participant "データベース" as DB
 
-:貸出システム: --> (本を貸す)
-:貸出システム: --> (返却本を受け取る)
-:貸出システム: --> (期限越えの利用者へ通知する)
+User -> Library : 登録()
+activate Library
+Library -> DB : ユーザーレコードの作成()
+activate DB
+DB -> Library : 確認()
+deactivate DB
+Library -> User : 登録完了()
+deactivate Library
 
+User -> Library : 書籍貸出のリクエスト(bookId)
+activate Library
+Library -> DB : 書籍の利用可能性の確認(bookId)
+activate DB
+DB -> Library : 書籍状態(利用可能)
+deactivate DB
+Library -> User : 書籍貸出開始(bookId)
+deactivate Library
+
+User -> Library : 書籍の返却(bookId)
+activate Library
+Library -> DB : 書籍状態の更新(返却)
+activate DB
+DB -> Library : 確認()
+deactivate DB
+Library -> User : 書籍返却完了()
+deactivate Library
 @enduml
