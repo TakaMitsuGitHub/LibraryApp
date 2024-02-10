@@ -36,7 +36,33 @@ class Loan(models.Model):
         verbose_name="返却期限",
     )
 
-    def extendLoan(self, days=7):
+    def extend_loan(self, days=7):
         if self.dueDate:
             self.dueDate += timedelta(days=days)
             self.save()
+
+
+class Reservation(models.Model):
+    user = models.ForeignKey(
+        to=CustomUserModel,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    book = models.ForeignKey(
+        to=Book,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    reservationDate = models.DateTimeField(
+        verbose_name="予約日",
+        auto_now=True,
+    )
+    expiryDate = models.DateTimeField(
+        verbose_name="有効期限",
+    )
+
+    # 通知処理などの追加がある為、カスタムメソッドとする
+    def cancel_reservation(self):
+        self.delete()

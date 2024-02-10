@@ -35,3 +35,23 @@ def create_book_csv(request):
     create_book = CreateBook(2)
     create_book.create_csv()
     return Response({"message": "create_csv OK"})
+
+
+
+
+    # from rest_framework.views import APIView
+    # from rest_framework.response import Response
+    # from rest_framework import status
+    # from .models import Book
+    # from .serializers import BookSerializer
+    #
+    # class BookDetailView(APIView):
+    #     def get(self, request, isbn):
+    #         try:
+    #             book = Book.objects.get(isbn=isbn)
+    #             serializer = BookSerializer(book)
+    #             return Response(serializer.data)
+    #         except Book.DoesNotExist:
+    #             return Response(
+    #                 {"error": "指定されたISBNの書籍は存在しません。"},
+    #                 status=status.HTTP_404_NOT_FOUND)
