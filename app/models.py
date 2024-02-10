@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from django.db import models
-from ..user.models import CustomUserModel
+from user.models import CustomUserModel
 
 
 # 書跡
