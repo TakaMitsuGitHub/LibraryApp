@@ -19,18 +19,14 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from . import views
-from .views import BookViewSet, create_book_csv
 
-router = DefaultRouter()
-router.register(r'books', BookViewSet)
+# router = DefaultRouter()
+# router.register(r'books', BookViewSet)
 
 app_name = 'app'
 
 urlpatterns = [
     path('', views.Index.as_view(), name='index'),
-    path('libarary_book_list', views.LibraryBookList.as_view(), name='libarary_book_list'),
-    # path('book_list', views.BookList.as_view(), name='book_list'),
 
-    # api
-    path('api/create_book_csv/', create_book_csv, name="create_book_csv"),
+    path('api/create_book_csv/', views.import_books_from_csv, name='create')
 ]

@@ -3,35 +3,35 @@ from django.views.generic import TemplateView, ListView, CreateView
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+import pandas as pd
 
-from .serializers import BookSerializer
-from .models import Book, Library
-from .process.create_csv import CreateBook
+import csv
+from app.models import Book
 
 
 class Index(TemplateView):
     template_name = 'index.html'
 
 
-class LibraryBookList(ListView):
-    template_name = 'library_bool_list.html'
-    model = Library
-    context_object_name = "book_list"
+# api
+# CSVからデータをインポートする関数
+@api_view(["post"])
+def import_books_from_csv(request):
 
+    print(request)
 
-# class BookList(ListView):
-#     template_name = 'bool_list.html'
-#     model = Book
-#     context_object_name = "book_list"
+    file_path = "./Book1.csv"
+    df = pd.read_csv(file_path)
+    for idx, row in df.iterrows():
+        book = Book.from_csv_row(row)
+        book.save()
 
+    # with open(csv_file, mode='r', encoding='utf-8') as file:
+    #     reader = csv.DictReader(file)
+    #
+    #     for row in reader:
+    #         book = Book.from_csv_row(row)
+    #         book.save()
 
-class BookViewSet(viewsets.ModelViewSet):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
+    return Response({"messages": "OK"})
 
-
-@api_view(['GET', 'POST'])
-def create_book_csv(request):
-    create_book = CreateBook(2)
-    create_book.create_csv()
-    return Response({"message": "create_csv OK"})

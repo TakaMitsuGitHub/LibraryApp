@@ -1,29 +1,53 @@
 from django.db import models
+import csv
+import numpy as np
 
 
 class Book(models.Model):
-    name = models.CharField(
-        max_length=255,
+    title = models.CharField(
+        max_length=100,
         blank=True,
-        null=True,
+        null=False,
+        default="",
     )
     auther = models.CharField(
-        max_length=255,
+        max_length=100,
         blank=True,
-        null=True,
+        null=False,
+        default="",
     )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-
-class Library(models.Model):
-    book_id = models.ForeignKey(
-        to=Book,
-        on_delete=models.CASCADE,
+    aaa = models.CharField(
+        max_length=100,
+        blank=True,
+        null=False,
+        default="",
+    )
+    bbb = models.IntegerField(
         blank=True,
         null=False,
         default=0,
     )
-    is_lent = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    ccc = models.FloatField(
+        blank=True,
+        null=False,
+        default=0,
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
+
+    @classmethod
+    def from_csv_row(cls, row):
+        """
+        CSVの行からBookインスタンスを作成します。
+        """
+        return cls(
+            title=row["タイトル"],
+            auther=row["著者"]
+        )
+
+
+

@@ -4,6 +4,7 @@
 <form action="#">
   {% csrf_token %}
   <button id="create_book_csv" class="create_book_csv">create_book_csv</button>
+  <input id="upload_file" type="file" style="display: None;">
 </form>
 
 
@@ -32,26 +33,7 @@
 </style>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
-    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    $(document).ready(function() {
-        $('#create_book_csv').click(function(e) {
-            $.ajax({
-                url: '/api/create_book_csv/',
-                method: 'POST',
 
-                headers: {
-                    'X-CSRFToken': csrfToken
-                },
-                success: function(response) {
-                    alert(response.message)
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    console.log("エラー:", xhr);
-                }
-            });
-            e.preventDefault();
-        });
-    });
 
 </script>
 {% endblock %}
