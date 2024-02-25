@@ -4,9 +4,15 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
 from rest_framework import status
-from .serializers import BookSerializer
 from  .models import Book
+
+import pandas as pd
+
+import csv
+
+
 
 
 class Index(TemplateView):
@@ -14,13 +20,26 @@ class Index(TemplateView):
 
 
 
-class BookDetailView(APIView):
-    def get(self, request, isbn):
-        try:
-            book = Book.objects.get(isbn=isbn)
-            serializer = BookSerializer(book)
-            return Response(serializer.data)
-        except Book.DoesNotExist:
-            return Response(
-                {"error": "指定されたISBNの書籍は存在しません。"},
-                status=status.HTTP_404_NOT_FOUND)
+# api
+# CSVからデータをインポートする関数
+@api_view(["post"])
+def import_books_from_csv(request):
+
+    print(request)
+
+    file_path = "./Book1.csv"
+    df = pd.read_csv(file_path)
+    for idx, row in df.iterrows():
+        book = Book.from_csv_row(row)
+        book.save()
+
+    # with open(csv_file, mode='r', encoding='utf-8') as file:
+    #     reader = csv.DictReader(file)
+    #
+    #     for row in reader:
+    #         book = Book.from_csv_row(row)
+    #         book.save()
+
+    return Response({"messages": "OK"})
+
+

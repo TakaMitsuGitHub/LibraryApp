@@ -19,9 +19,9 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from . import views
-from .views import BookDetailView
 
-router = DefaultRouter()
+
+# router = DefaultRouter()
 # router.register(r'books', BookViewSet)
 
 app_name = 'app'
@@ -30,4 +30,6 @@ urlpatterns = [
     path('', views.Index.as_view(), name='index'),
 
     # api
+    path('api/create_book_csv/', views.import_books_from_csv, name='create')
+
 ]
